@@ -74,3 +74,29 @@ class TicTacToe(Game):
 					s+="O"
 			print(s)
 		print('\n')
+
+class TicTacToe_Player(Player):
+	def __init__(self, W, B, Wins=0, Losses=0, name="Player"):
+		super().__init__(Wins, Losses, name)
+		self.W = W
+		self.B = B
+
+	def next_move(self, game):
+		x = np.array(game.board)
+		if sum(x) == 1:
+			x = x*-1
+
+		y = np.matmul(self.W, x) + self.B
+		poss_moves = np.argsort(y)
+		for i in poss_moves:
+			if game.board[i] == 0:
+				return i
+		print("Error: No moves possible")
+		return None
+
+
+rand_W = np.random.rand(9,9)*2 - np.ones((9,9))
+rand_B = np.random.rand(9)*2 - np.ones(9)
+p1 = TicTacToe_Player(rand_W, rand_B)
+g = TicTacToe()
+print(p1.next_move(g))

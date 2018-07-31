@@ -29,3 +29,15 @@ class Game:
 
 	def print_board(self):
 		pass
+
+class Player:
+	def __init__(self, Wins=0, Losses=0, name="Player"):
+		self.Wins = Wins
+		self.Losses = Losses
+		self.name = name
+
+	def next_move(self, game):
+		pass
+
+	def print_stats(self):
+		print(self.name + " Stats: Wins: " + str(self.Wins) + "  Losses: " + str(self.Losses))
