@@ -94,9 +94,5 @@ class TicTacToe_Player(Player):
 		print("Error: No moves possible")
 		return None
 
-
-rand_W = np.random.rand(9,9)*2 - np.ones((9,9))
-rand_B = np.random.rand(9)*2 - np.ones(9)
-p1 = TicTacToe_Player(rand_W, rand_B)
-g = TicTacToe()
-print(p1.next_move(g))
+	#TODO
+	#perc_against_random
