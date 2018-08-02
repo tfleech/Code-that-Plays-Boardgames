@@ -1,11 +1,12 @@
 class Game:
-	def __init__(self, player1=1, player2=-1):
+	def __init__(self, player1=1, player2=-1, game_type = None):
 		self.player1 = player1
 		self.player2 = player2
 		self.board = None
 		self.turn = player1
 		self.gameover = False
 		self.winner = 0
+		self.game_type = game_type
 
 	def is_gameover(self):
 		"""
@@ -31,10 +32,11 @@ class Game:
 		pass
 
 class Player:
-	def __init__(self, Wins=0, Losses=0, name="Player"):
+	def __init__(self, Wins=0, Losses=0, name="Player", game_type = None):
 		self.Wins = Wins
 		self.Losses = Losses
 		self.name = name
+		self.game_type = game_type
 
 	def next_move(self, game):
 		pass
@@ -43,27 +45,34 @@ class Player:
 		print(self.name + " Stats: Wins: " + str(self.Wins) + "  Losses: " + str(self.Losses))
 
 class Driver:
-	def __init__(self, player1, player2, game=Game()):
-		self.p1 = player1
-		self.p2 = player2
+	def __init__(self, players = [], game = Game()):
+		self.players = players
 		self.game = game
 
-	def run_game(self, print_game=False):
+	def single_game(self, player1, player2, print_game=False):
+		
+		if player1.game_type != self.game.game_type:
+			print("ERROR: Player1 is playing " + str(player1.game_type) + " but the game is " + str(self.game.game_type))
+			return
+		if player2.game_type != self.game.game_type:
+			print("ERROR: Player2 is playing " + str(player2.game_type) + " but the game is " + str(self.game.game_type))
+			return
+
 		while(not self.game.is_gameover()):
 			if self.game.turn == self.game.player1:
-				n = self.p1.next_move(self.game)
+				n = player1.next_move(self.game)
 				self.game.make_move(n)
 			else:
-				n = self.p2.next_move(self.game)
+				n = player2.next_move(self.game)
 				self.game.make_move(n)
 
 			if print_game:
 				self.game.print_board()
 
 		if self.game.winner == self.game.player1:
-			self.p1.Wins += 1
-			self.p2.Losses += 1
+			player1.Wins += 1
+			player2.Losses += 1
 		elif self.game.winner == self.game.player2:
-			self.p1.Losses += 1
-			self.p2.Wins += 1
+			player1.Losses += 1
+			player2.Wins += 1
 		return self.game.winner

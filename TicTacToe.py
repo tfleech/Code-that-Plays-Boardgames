@@ -3,7 +3,7 @@ import numpy as np
 
 class TicTacToe(Game):
 	def __init__(self, board=np.zeros(9)):
-		super().__init__(player1 = 1, player2 = -1)
+		super().__init__(player1=1, player2=-1, game_type="TicTacToe")
 		self.board = board
 
 	def is_gameover(self):
@@ -77,7 +77,7 @@ class TicTacToe(Game):
 
 class TicTacToe_Player(Player):
 	def __init__(self, W, B, Wins=0, Losses=0, name="Player"):
-		super().__init__(Wins, Losses, name)
+		super().__init__(Wins, Losses, name, game_type="TicTacToe")
 		self.W = W
 		self.B = B
 
