@@ -1,3 +1,5 @@
+import numpy as np
+
 class Game:
 	def __init__(self, player1=1, player2=-1, game_type = None):
 		self.player1 = player1
@@ -72,7 +74,30 @@ class Driver:
 		if self.game.winner == self.game.player1:
 			player1.Wins += 1
 			player2.Losses += 1
+			return player1.name
 		elif self.game.winner == self.game.player2:
 			player1.Losses += 1
 			player2.Wins += 1
-		return self.game.winner
+			return player2.name
+		return "Draw"
+
+	def many_games(self, num_games, players=[], print_results=False):
+
+		if len(players)==0:
+			if len(self.players)==0:
+				print("ERROR: There are no players")
+				return
+			else:
+				players = self.players
+
+		for p in players:
+			if self.game.game_type != p.game_type:
+				print("ERROR: Not all players are playing " + str(self.game.game_type))
+
+		for i in range(num_games):
+			p1 = np.random.choice(players)
+			p2 = np.random.choice(players)
+			winner = self.single_game(p1, p2)
+
+			if print_results:
+				print("The winner of game " + str(i) + " is " + str(winner))
