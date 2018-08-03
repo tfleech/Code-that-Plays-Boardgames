@@ -1,4 +1,7 @@
-from TicTacToe import *
+from Games import TicTacToe_Game
+from Players import TicTacToe_Player as T
+from Base_Classes import *
+import numpy as np
 
 
 #Init 2 random policy matrices
@@ -8,10 +11,10 @@ rand_W_2 = np.random.rand(9,9)*2 - np.ones((9,9))
 rand_B_2 = np.random.rand(9)*2 - np.ones(9)
 
 #Create 2 players and a game
-p1 = TicTacToe_Player(rand_W_1, rand_B_1, name="Player1")
-p2 = TicTacToe_Player(rand_W_2, rand_B_2, name="Player2")
+p1 = T.TicTacToe_Player(rand_W_1, rand_B_1, name="Player1")
+p2 = T.TicTacToe_Player(rand_W_2, rand_B_2, name="Player2")
 
-g = TicTacToe()
+g = TicTacToe_Game.TicTacToe()
 
 #Instantiate a driver and run a game
 D = Driver(game=g)
