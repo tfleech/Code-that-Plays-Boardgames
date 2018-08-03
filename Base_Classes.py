@@ -16,11 +16,27 @@ class Game:
 		"""
 		raise NotImplementedError
 
+	def update_board(self, move):
+
+		raise NotImplementedError
+
 	def make_move(self, move):
 		"""
 		Update self.board with new move
 		"""
-		raise NotImplementedError
+
+		if self.is_move_valid(move):
+			try:
+				self.update_board(move)
+			except Exception as e:
+				print("ERROR: Board update failed")
+				raise e
+			
+		else:
+			print("ERROR: invalid move")
+			#TODO:
+			#Return error code
+			return
 
 		if(self.turn == self.player1):
 			self.turn = self.player2
@@ -67,6 +83,7 @@ class Driver:
 			return
 
 		while(not self.game.is_gameover()):
+			n = None
 			if self.game.turn == self.game.player1:
 
 				try:
@@ -79,7 +96,6 @@ class Driver:
 					print("ERROR: Player1 returned an invalid move")
 					return
 
-				self.game.make_move(n)
 			else:
 
 				try:
@@ -92,7 +108,9 @@ class Driver:
 					print("ERROR: Player2 returned an invalid move")
 					return
 
-				self.game.make_move(n)
+			#TODO:
+			#catch return error codes
+			self.game.make_move(n)
 
 			if print_game:
 				self.game.print_board()

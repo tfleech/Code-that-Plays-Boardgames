@@ -69,18 +69,11 @@ class Connect4(Game):
 	def is_move_valid(self, move):
 		return self.board[0][move] == 0
 
-	def make_move(self, move):
-		if self.is_move_valid(move):
-			for i in range(self.board.shape[0]):
-				if self.board[self.board.shape[0]-1-i][move] == 0:
-					self.board[self.board.shape[0]-1-i][move] = self.turn
-					break
-
-		if(self.turn == self.player1):
-			self.turn = self.player2
-		else:
-			self.turn = self.player1
-		self.is_gameover()
+	def update_board(self, move):
+		for i in range(self.board.shape[0]):
+			if self.board[self.board.shape[0]-1-i][move] == 0:
+				self.board[self.board.shape[0]-1-i][move] = self.turn
+				break
 
 	def print_board(self):
 		for i in range(self.board.shape[0]):

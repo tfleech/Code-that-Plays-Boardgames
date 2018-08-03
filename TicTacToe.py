@@ -56,16 +56,8 @@ class TicTacToe(Game):
 	def is_move_valid(self, move):
 		return self.board[move] == 0
 
-	def make_move(self, move):
-		if self.is_move_valid(move):
-			self.board[move] = self.turn
-
-		if (self.turn == self.player1):
-			self.turn = self.player2
-		else:
-			self.turn = self.player1
-
-		self.is_gameover()
+	def update_board(self, move):
+		self.board[move] = self.turn
 
 	def print_board(self):
 		for i in range(3):

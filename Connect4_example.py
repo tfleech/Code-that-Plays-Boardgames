@@ -1,8 +1,10 @@
 from Connect4 import *
+from TicTacToe import *
 
 #Create two random players
 p1 = rand_Connect4_Player(name="Player1")
 p2 = rand_Connect4_Player(name="Player2")
+p3 = TicTacToe_Player([],[])
 
 #Start a game
 g = Connect4()
