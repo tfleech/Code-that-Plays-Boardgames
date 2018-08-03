@@ -93,6 +93,7 @@ class Driver:
 		for p in players:
 			if self.game.game_type != p.game_type:
 				print("ERROR: Not all players are playing " + str(self.game.game_type))
+				return
 
 		for i in range(num_games):
 			p1 = np.random.choice(players)
