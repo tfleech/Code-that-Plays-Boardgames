@@ -14,12 +14,13 @@ class Game:
 		"""
 		Set self.gameover and return answer
 		"""
-		pass
+		raise NotImplementedError
 
 	def make_move(self, move):
 		"""
 		Update self.board with new move
 		"""
+		raise NotImplementedError
 
 		if(self.turn == self.player1):
 			self.turn = self.player2
@@ -28,7 +29,7 @@ class Game:
 		self.is_gameover()
 
 	def is_move_valid(self, move):
-		pass
+		return True
 
 	def new_game(self):
 		pass
@@ -44,7 +45,7 @@ class Player:
 		self.game_type = game_type
 
 	def next_move(self, game):
-		pass
+		raise NotImplementedError
 
 	def print_stats(self):
 		print(self.name + " Stats: Wins: " + str(self.Wins) + "  Losses: " + str(self.Losses))
@@ -67,10 +68,30 @@ class Driver:
 
 		while(not self.game.is_gameover()):
 			if self.game.turn == self.game.player1:
-				n = player1.next_move(self.game)
+
+				try:
+					n = player1.next_move(self.game)
+				except Exception as e:
+					print("ERROR: Player1's next_move function failed")
+					raise e
+
+				if not self.game.is_move_valid(n):
+					print("ERROR: Player1 returned an invalid move")
+					return
+
 				self.game.make_move(n)
 			else:
-				n = player2.next_move(self.game)
+
+				try:
+					n = player2.next_move(self.game)
+				except Exception as e:
+					print("ERROR: Player2's next_move function failed")
+					raise e
+
+				if not self.game.is_move_valid(n):
+					print("ERROR: Player2 returned an invalid move")
+					return
+
 				self.game.make_move(n)
 
 			if print_game:
