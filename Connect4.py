@@ -3,8 +3,10 @@ from Base_Classes import *
 
 class Connect4(Game):
 	def __init__(self, board = np.zeros((6,7))):
-		super().__init__(player1=1, player2=-1, game_type="Connect4")
+		super().__init__(game_type="Connect4")
 		self.board = board
+		self.Red = 1
+		self.Black = -1
 
 	def new_game(self):
 		self.board = np.zeros((6,7))
@@ -45,11 +47,11 @@ class Connect4(Game):
 
 
 	def is_gameover(self):
-		if self.check_column(self.player1) or self.check_row(self.player1) or self.check_forward_diag(self.player1) or self.check_backward_diag(self.player1):
+		if self.check_column(self.Red) or self.check_row(self.Red) or self.check_forward_diag(self.Red) or self.check_backward_diag(self.Red):
 			self.winner = self.player1
 			self.gameover = True
 			return True
-		if self.check_column(self.player2) or self.check_row(self.player2) or self.check_forward_diag(self.player2) or self.check_backward_diag(self.player2):
+		if self.check_column(self.Black) or self.check_row(self.Black) or self.check_forward_diag(self.Black) or self.check_backward_diag(self.Black):
 			self.winner = self.player2
 			self.gameover = True
 			return True
@@ -81,7 +83,7 @@ class Connect4(Game):
 			for j in range(self.board.shape[1]):
 				if self.board[i][j] == 0:
 					s+=" "
-				elif self.board[i][j] == self.player1:
+				elif self.board[i][j] == self.Red:
 					s+="X"
 				else:
 					s+="O"

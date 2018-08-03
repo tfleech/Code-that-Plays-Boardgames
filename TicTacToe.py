@@ -3,44 +3,38 @@ import numpy as np
 
 class TicTacToe(Game):
 	def __init__(self, board=np.zeros(9)):
-		super().__init__(player1=1, player2=-1, game_type="TicTacToe")
+		super().__init__(game_type="TicTacToe")
 		self.board = board
+		self.X = 1
+		self.O = -1
 
 	def new_game(self):
 		self.board = np.zeros(9)
 		self.gameover = False
-		self.winner = 0
+		self.winner = None
 
 	def is_gameover(self):
-		test = (self.board[0] + self.board[1] + self.board[2]) == 3
-		test |= (self.board[3] + self.board[4] + self.board[5]) == 3
-		test |= (self.board[6] + self.board[7] + self.board[8]) == 3
-		test |= (self.board[0] + self.board[3] + self.board[6]) == 3
-		test |= (self.board[1] + self.board[4] + self.board[7]) == 3
-		test |= (self.board[2] + self.board[5] + self.board[8]) == 3
-		test |= (self.board[0] + self.board[4] + self.board[8]) == 3
-		test |= (self.board[2] + self.board[4] + self.board[6]) == 3
+		test = (self.board[0] + self.board[1] + self.board[2]) == 3*self.X
+		test |= (self.board[3] + self.board[4] + self.board[5]) == 3*self.X
+		test |= (self.board[6] + self.board[7] + self.board[8]) == 3*self.X
+		test |= (self.board[0] + self.board[3] + self.board[6]) == 3*self.X
+		test |= (self.board[1] + self.board[4] + self.board[7]) == 3*self.X
+		test |= (self.board[2] + self.board[5] + self.board[8]) == 3*self.X
+		test |= (self.board[0] + self.board[4] + self.board[8]) == 3*self.X
+		test |= (self.board[2] + self.board[4] + self.board[6]) == 3*self.X
 		if test:
 			self.winner = self.player1
 			self.gameover = True
 			return True
 
-		#test = (self.board[0] + self.board[1] + self.board[2]) == 12
-		#test |= (self.board[3] + self.board[4] + self.board[5]) == 12
-		#test |= (self.board[6] + self.board[7] + self.board[8]) == 12
-		#test |= (self.board[0] + self.board[3] + self.board[6]) == 12
-		#test |= (self.board[1] + self.board[4] + self.board[7]) == 12
-		#test |= (self.board[2] + self.board[5] + self.board[8]) == 12
-		#test |= (self.board[0] + self.board[4] + self.board[8]) == 12
-		#test |= (self.board[2] + self.board[4] + self.board[6]) == 12
-		test = (self.board[0] + self.board[1] + self.board[2]) == -3
-		test |= (self.board[3] + self.board[4] + self.board[5]) == -3
-		test |= (self.board[6] + self.board[7] + self.board[8]) == -3
-		test |= (self.board[0] + self.board[3] + self.board[6]) == -3
-		test |= (self.board[1] + self.board[4] + self.board[7]) == -3
-		test |= (self.board[2] + self.board[5] + self.board[8]) == -3
-		test |= (self.board[0] + self.board[4] + self.board[8]) == -3
-		test |= (self.board[2] + self.board[4] + self.board[6]) == -3
+		test = (self.board[0] + self.board[1] + self.board[2]) == 3*self.O
+		test |= (self.board[3] + self.board[4] + self.board[5]) == 3*self.O
+		test |= (self.board[6] + self.board[7] + self.board[8]) == 3*self.O
+		test |= (self.board[0] + self.board[3] + self.board[6]) == 3*self.O
+		test |= (self.board[1] + self.board[4] + self.board[7]) == 3*self.O
+		test |= (self.board[2] + self.board[5] + self.board[8]) == 3*self.O
+		test |= (self.board[0] + self.board[4] + self.board[8]) == 3*self.O
+		test |= (self.board[2] + self.board[4] + self.board[6]) == 3*self.O
 		if test:
 			self.winner = self.player2
 			self.gameover = True
@@ -65,7 +59,7 @@ class TicTacToe(Game):
 			for j in range(3):
 				if self.board[j+3*i] == 0:
 					s+="_"
-				elif self.board[j+3*i] == self.player1:
+				elif self.board[j+3*i] == self.X:
 					s+="X"
 				else:
 					s+="O"
