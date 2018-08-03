@@ -6,6 +6,11 @@ class Connect4(Game):
 		super().__init__(player1=1, player2=-1, game_type="Connect4")
 		self.board = board
 
+	def new_game(self):
+		self.board = np.zeros((6,7))
+		self.gameover = False
+		self.winner = 0
+
 	def check_column(self, player):
 		for i in range(self.board.shape[1] - 1):
 			for j in range(self.board.shape[0] - 3):
@@ -49,6 +54,16 @@ class Connect4(Game):
 			self.gameover = True
 			return True
 
+		if not self.is_available_move():
+			self.gameover = True
+			return True
+
+		return False
+
+	def is_available_move(self):
+		for i in self.board.flatten():
+			if i == 0:
+				return True
 		return False
 
 	def is_move_valid(self, move):
@@ -82,3 +97,22 @@ class Connect4(Game):
 			if i != self.board.shape[0]-1:
 				print("---------------")
 		print('\n')
+
+
+
+class rand_Connect4_Player(Player):
+	def __init__(self, Wins=0, Losses=0, name="Player"):
+		super().__init__(Wins, Losses, name, game_type="Connect4")
+
+	def next_move(self, game):
+		if not game.is_available_move():
+			print("ERROR: There is no valid move")
+			return None
+
+		moves = list(range(game.board.shape[1]))
+		np.random.shuffle(moves)
+		for m in moves:
+			if game.is_move_valid(m):
+				return m
+
+		return None

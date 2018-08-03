@@ -30,6 +30,9 @@ class Game:
 	def is_move_valid(self, move):
 		pass
 
+	def new_game(self):
+		pass
+
 	def print_board(self):
 		pass
 
@@ -52,6 +55,8 @@ class Driver:
 		self.game = game
 
 	def single_game(self, player1, player2, print_game=False):
+
+		self.game.new_game()
 		
 		if player1.game_type != self.game.game_type:
 			print("ERROR: Player1 is playing " + str(player1.game_type) + " but the game is " + str(self.game.game_type))

@@ -6,6 +6,11 @@ class TicTacToe(Game):
 		super().__init__(player1=1, player2=-1, game_type="TicTacToe")
 		self.board = board
 
+	def new_game(self):
+		self.board = np.zeros(9)
+		self.gameover = False
+		self.winner = 0
+
 	def is_gameover(self):
 		test = (self.board[0] + self.board[1] + self.board[2]) == 3
 		test |= (self.board[3] + self.board[4] + self.board[5]) == 3
