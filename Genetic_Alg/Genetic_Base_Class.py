@@ -30,25 +30,29 @@ class Generation:
 		for m in self.members:
 			m.evaluate()
 
-	def next_generation(self, num_offspring, rand_rate = 0.5, keep_perc = 0.25):
+	def next_generation(self, num_offspring, mutation_rate = 0.5, keep_perc = 0.25):
 		self.members.sort(key=lambda x: x.fitness_score, reverse=True)
 		new_members = self.members[:int(keep_perc*len(self.members))]
 
-		total_fitness = sum([x.fitness_score for x in new_members])
+		total_fitness = sum([x.fitness_score for x in self.members])
 		if (total_fitness == 0):
-			fitness_dist = [1.0/len(new_members) for x in new_members]
+			fitness_dist = [1.0/len(self.members) for x in self.members]
 		else:
-			fitness_dist = [float(x.fitness_score)/total_fitness for x in new_members]
+			fitness_dist = [float(x.fitness_score)/total_fitness for x in self.members]
 
 		if len(new_members) < num_offspring:
 			offspring = []
 			for i in range(num_offspring - len(new_members)):
-				parent_one = np.random.choice(new_members, p=fitness_dist)
-				parent_two = np.random.choice(new_members, p=fitness_dist)
+				parent_one = np.random.choice(self.members, p=fitness_dist, replace=False)
+				parent_two = np.random.choice(self.members, p=fitness_dist, replace=False)
 
 				cross_over_point = int(np.random.rand()*len(parent_one.gene))
 
 				child_gene = np.concatenate((parent_one.gene[:cross_over_point], parent_two.gene[cross_over_point:]))
+
+				if np.random.rand() < mutation_rate:
+					mutation = (np.random.rand(len(child_gene)) - 0.5)*np.std(child_gene)*1.0
+					child_gene = np.add(child_gene, mutation)
 
 				offspring.append(self.members[0].new_member(child_gene))
 			new_members.extend(offspring)

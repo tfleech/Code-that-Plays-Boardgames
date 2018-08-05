@@ -38,13 +38,13 @@ points = np.array([[1,2],[2,1]])
 labels = np.array([1,-1])
 
 members = []
-for i in range(10):
+for i in range(100):
 	members.append(Lin_Reg_Member.get_random_member(points, labels))
 
 G = Generation(members)
-for i in range(5):
+for i in range(30):
 	G.evaluate_members()
 	print(len(G.members))
 	G.print_stats()
-	G = G.next_generation(10)
+	G = G.next_generation(100)
 #print(m.fitness_score)
