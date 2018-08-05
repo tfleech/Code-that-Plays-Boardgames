@@ -30,7 +30,7 @@ class Generation:
 		for m in self.members:
 			m.evaluate()
 
-	def next_generation(self, num_offspring, mutation_rate = 0.5, keep_perc = 0.25):
+	def next_generation(self, num_offspring, keep_perc = 0.25, mutation_rate = 0.5, mutation_breadth = 1.0):
 		self.members.sort(key=lambda x: x.fitness_score, reverse=True)
 		new_members = self.members[:int(keep_perc*len(self.members))]
 
@@ -51,7 +51,7 @@ class Generation:
 				child_gene = np.concatenate((parent_one.gene[:cross_over_point], parent_two.gene[cross_over_point:]))
 
 				if np.random.rand() < mutation_rate:
-					mutation = (np.random.rand(len(child_gene)) - 0.5)*np.std(child_gene)*1.0
+					mutation = (np.random.rand(len(child_gene)) - 0.5)*np.std(child_gene)*mutation_breadth
 					child_gene = np.add(child_gene, mutation)
 
 				offspring.append(self.members[0].new_member(child_gene))

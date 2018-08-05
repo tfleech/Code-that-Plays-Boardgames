@@ -34,17 +34,20 @@ class Lin_Reg_Member(Member):
 		return Lin_Reg_Member(W, B, points, labels, fitness_score)
 
 
-points = np.array([[1,2],[2,1]])
-labels = np.array([1,-1])
+points = np.array([[1,2],[2,1], [-1,-0.9], [-1,-1.1]])
+labels = np.array([1,-1, 1, -1])
 
 members = []
 for i in range(100):
 	members.append(Lin_Reg_Member.get_random_member(points, labels))
 
 G = Generation(members)
-for i in range(30):
+for i in range(200):
 	G.evaluate_members()
-	print(len(G.members))
-	G.print_stats()
+	if i%10==0:
+		G.print_stats()
 	G = G.next_generation(100)
+
+print(G.members[0].W)
+print(G.members[0].B)
 #print(m.fitness_score)
