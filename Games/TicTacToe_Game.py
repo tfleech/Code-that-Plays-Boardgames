@@ -50,6 +50,12 @@ class TicTacToe(Game):
 	def is_move_valid(self, move):
 		return self.board[move] == 0
 
+	def is_available_move(self):
+		for i in self.board.flatten():
+			if i == 0:
+				return True
+		return False
+
 	def update_board(self, move):
 		self.board[move] = self.turn
 
