@@ -20,6 +20,11 @@ class Game:
 
 		raise NotImplementedError
 
+	def is_available_move(self):
+		
+		raise NotImplementedError
+
+
 	def make_move(self, move):
 		"""
 		Update self.board with new move
