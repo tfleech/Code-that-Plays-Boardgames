@@ -13,7 +13,7 @@ rand_B_2 = np.random.rand(9)*2 - np.ones(9)
 #Create 2 players and a game
 p1 = T.TicTacToe_Player(rand_W_1, rand_B_1, name="Player1")
 p2 = T.TicTacToe_Player(rand_W_2, rand_B_2, name="Player2")
-p3 = T.rand_TicTacToe_Player(name="Player3")
+p3 = T.human_TicTacToe_Player(name="Player3")
 
 g = TicTacToe_Game.TicTacToe()
 

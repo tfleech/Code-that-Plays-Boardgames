@@ -69,6 +69,12 @@ class Connect4(Game):
 		return False
 
 	def is_move_valid(self, move):
+		if move == None:
+			return False
+		move = int(move)
+		if move < 0 or move > 6:
+			print("out of range")
+			return False
 		return self.board[0][move] == 0
 
 	def update_board(self, move):

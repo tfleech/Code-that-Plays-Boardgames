@@ -53,19 +53,30 @@ from Base_Classes import *
 # 		print("win perc agains random: " + str(avg_win_against_random) + '\n')
 
 class TicTacToe_Member(Member):
-	def __init__(self, player, fitness_score=0):
+	def __init__(self, player, fitness_score=0, other_players = []):
 		self.player = player
+		self.other_players = other_players
 		gene = list(player.W.flatten())
 		gene.extend(list(player.B))
 		super().__init__(gene, fitness_score)
 
 	def evaluate(self):
-		random = T.rand_TicTacToe_Player()
 		g = G.TicTacToe()
 		d = Driver(game=g)
 		prev_wins = self.player.Wins
-		d.many_games(100, [self.player, random])
-		self.fitness_score = (self.player.Wins-prev_wins)/100.0
+
+		if len(self.other_players)==0:
+			random = T.rand_TicTacToe_Player()
+			d.many_games(100, [self.player, random])
+			self.fitness_score = (self.player.Wins-prev_wins)/100.0
+		else:
+			for i in range(50):
+				opp = np.random.choice(self.other_players)
+				d.single_game(self.player, opp)
+			for i in range(50):
+				opp = np.random.choice(self.other_players)
+				d.single_game(opp, self.player)
+			self.fitness_score = (self.player.Wins-prev_wins)/100.0
 
 	def new_member(self, gene):
 		W = np.array(gene[:81])
@@ -79,6 +90,10 @@ class TicTacToe_Member(Member):
 		new_player = T.rand_TicTacToe_Player()
 		return TicTacToe_Member(new_player, fitness_score)
 
+	def print_member(self):
+		print("W: " + str(self.player.W))
+		print("B: " + str(self.player.B))
+
 
 # G1 = TicTacToe_Generation(num_members=500)
 # for i in range(100):
@@ -87,12 +102,35 @@ class TicTacToe_Member(Member):
 # 	if i%10==0:
 # 		G1.print_stats(100)
 
+def perc_vs_rand(members):
+	win_perc = []
+	g = G.TicTacToe()
+	d = Driver(game=g)
+	for m in members:
+		random = T.rand_TicTacToe_Player()
+		prev_wins = m.player.Wins
+		d.many_games(100, [m.player, random])
+		win_perc.append(m.player.Wins - prev_wins)
+	print(np.mean(win_perc))
+
 members = []
-for i in range(100):
+for i in range(200):
 	members.append(TicTacToe_Member.get_random_member())
 
+#for m in members:
+#	m.other_players = [x.player for x in members]
+
+perc_vs_rand(members)
+
 Gen = Generation(members)
-for i in range(10):
+for i in range(1000):
 	Gen.evaluate_members()
 	Gen.print_stats()
-	Gen = Gen.next_generation(100)
+	if i%25==0:
+		perc_vs_rand(Gen.members)
+	Gen = Gen.next_generation(200, mutation_rate=0.7, mutation_breadth=5)
+#	for m in Gen.members:
+#		m.other_players = [x.player for x in members]
+
+perc_vs_rand(Gen.members)
+Gen.members[0].print_member()

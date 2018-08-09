@@ -15,7 +15,7 @@ class TicTacToe_Player(Player):
 		y = np.matmul(self.W, x) + self.B
 		poss_moves = np.argsort(y)
 		for i in poss_moves:
-			if game.board[i] == 0:
+			if game.is_move_valid(i):
 				return i
 		print("Error: No moves possible")
 		return None
@@ -36,7 +36,18 @@ class rand_TicTacToe_Player(Player):
 		y = np.matmul(self.W, x) + self.B
 		poss_moves = np.argsort(y)
 		for i in poss_moves:
-			if game.board[i] == 0:
+			if game.is_move_valid(i):
 				return i
 		print("Error: No moves possible")
 		return None
+
+class human_TicTacToe_Player(Player):
+	def __init__(self, Wins=0, Losses=0, name = "Player"):
+		super().__init__(Wins, Losses, name, game_type="TicTacToe")
+
+	def next_move(self, game):
+		game.print_board()
+		move = None
+		while not game.is_move_valid(move):
+			move = input("Enter a move: ")
+		return int(move)

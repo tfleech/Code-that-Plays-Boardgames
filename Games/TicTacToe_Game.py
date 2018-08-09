@@ -48,6 +48,12 @@ class TicTacToe(Game):
 		return True
 
 	def is_move_valid(self, move):
+		if move == None:
+			return False
+		move = int(move)
+		if move < 0 or move > 8:
+			print("out of range")
+			return False
 		return self.board[move] == 0
 
 	def is_available_move(self):
