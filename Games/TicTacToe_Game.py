@@ -13,39 +13,58 @@ class TicTacToe(Game):
 		self.gameover = False
 		self.winner = None
 
-	def is_gameover(self):
-		test = (self.board[0] + self.board[1] + self.board[2]) == 3*self.X
-		test |= (self.board[3] + self.board[4] + self.board[5]) == 3*self.X
-		test |= (self.board[6] + self.board[7] + self.board[8]) == 3*self.X
-		test |= (self.board[0] + self.board[3] + self.board[6]) == 3*self.X
-		test |= (self.board[1] + self.board[4] + self.board[7]) == 3*self.X
-		test |= (self.board[2] + self.board[5] + self.board[8]) == 3*self.X
-		test |= (self.board[0] + self.board[4] + self.board[8]) == 3*self.X
-		test |= (self.board[2] + self.board[4] + self.board[6]) == 3*self.X
-		if test:
-			self.winner = self.player1
-			self.gameover = True
-			return True
+	def is_gameover(self, update=True, board=[]):
+		if update:
+			board = self.board
+		else:
+			if board==[]:
+				print("No update but did not provide a board")
+				return
 
-		test = (self.board[0] + self.board[1] + self.board[2]) == 3*self.O
-		test |= (self.board[3] + self.board[4] + self.board[5]) == 3*self.O
-		test |= (self.board[6] + self.board[7] + self.board[8]) == 3*self.O
-		test |= (self.board[0] + self.board[3] + self.board[6]) == 3*self.O
-		test |= (self.board[1] + self.board[4] + self.board[7]) == 3*self.O
-		test |= (self.board[2] + self.board[5] + self.board[8]) == 3*self.O
-		test |= (self.board[0] + self.board[4] + self.board[8]) == 3*self.O
-		test |= (self.board[2] + self.board[4] + self.board[6]) == 3*self.O
+		test = (board[0] + board[1] + board[2]) == 3*self.X
+		test |= (board[3] + board[4] + board[5]) == 3*self.X
+		test |= (board[6] + board[7] + board[8]) == 3*self.X
+		test |= (board[0] + board[3] + board[6]) == 3*self.X
+		test |= (board[1] + board[4] + board[7]) == 3*self.X
+		test |= (board[2] + board[5] + board[8]) == 3*self.X
+		test |= (board[0] + board[4] + board[8]) == 3*self.X
+		test |= (board[2] + board[4] + board[6]) == 3*self.X
 		if test:
-			self.winner = self.player2
-			self.gameover = True
-			return True
+			if update:
+				self.winner = self.player1
+				self.gameover = True
+				return True
+			else:
+				return (True, self.player1)
+
+		test = (board[0] + board[1] + board[2]) == 3*self.O
+		test |= (board[3] + board[4] + board[5]) == 3*self.O
+		test |= (board[6] + board[7] + board[8]) == 3*self.O
+		test |= (board[0] + board[3] + board[6]) == 3*self.O
+		test |= (board[1] + board[4] + board[7]) == 3*self.O
+		test |= (board[2] + board[5] + board[8]) == 3*self.O
+		test |= (board[0] + board[4] + board[8]) == 3*self.O
+		test |= (board[2] + board[4] + board[6]) == 3*self.O
+		if test:
+			if update:
+				self.winner = self.player2
+				self.gameover = True
+				return True
+			else:
+				return (True, self.player2)
 
 		for i in range(9):
-			if self.board[i] == 0:
-				return False
-		self.gameover = True
-		self.winner = None
-		return True
+			if board[i] == 0:
+				if update:
+					return False
+				else:
+					return (False, None)
+		if update:
+			self.gameover = True
+			self.winner = None
+			return True
+		else:
+			return (True, None)
 
 	def is_move_valid(self, move):
 		if move == None:
@@ -62,8 +81,27 @@ class TicTacToe(Game):
 				return True
 		return False
 
-	def update_board(self, move):
-		self.board[move] = self.turn
+	def available_moves(self, board=[]):
+		res = []
+		if board == []:
+			board = self.board.flatten()
+
+		for i in range(len(board)):
+			if board[i] == 0:
+				res.append(i)
+		return res
+
+	def update_board(self, move, update=True, board=[], player=None):
+		if update:
+			self.board[move] = self.turn
+			return
+		else:
+			if board==[] or player==None:
+				print("Asked for make_move without update but did not supply board and player")
+				return
+			else:
+				board[move] = player
+				return board
 
 	def print_board(self):
 		for i in range(3):

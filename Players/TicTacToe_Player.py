@@ -1,5 +1,8 @@
 from Base_Classes import *
 import numpy as np
+import sys, os
+sys.path.append(os.path.dirname(os.path.realpath(__file__))+"/..")
+
 
 class TicTacToe_Player(Player):
 	def __init__(self, W, B, Wins=0, Losses=0, name="Player"):
