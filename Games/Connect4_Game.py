@@ -69,11 +69,21 @@ class Connect4(Game):
 			return False
 		return board[0][move] == 0
 
-	def update_board(self, move, board, player):
+	def available_moves(self, board):
+		res = []
+
 		for i in range(board.shape[0]):
-			if board[board.shape[0]-1-i][move] == 0:
-				board[board.shape[0]-1-i][move] = player
+			if self.is_move_valid(i, board):
+				res.append(i)
+
+		return res
+
+	def update_board(self, move, board, player):
+		for i in reversed(range(board.shape[0])):
+			if board[i][move] == 0:
+				board[i][move] = player
 				return board
+		return board
 
 	def print_board(self, board):
 		for i in range(board.shape[0]):

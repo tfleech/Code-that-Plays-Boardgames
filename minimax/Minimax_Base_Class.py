@@ -60,6 +60,8 @@ class Minimax():
 
 		best_score = 9999
 		for m in self.get_next_states(board, turn):
+			if (type(board) == type(None)):
+				print("Board None in for")
 			board = self.make_move(board, turn, m)
 			#print(board)
 			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
