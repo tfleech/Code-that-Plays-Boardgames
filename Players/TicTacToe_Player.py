@@ -1,7 +1,8 @@
 from Base_Classes import *
 import numpy as np
 import sys, os
-sys.path.append(os.path.dirname(os.path.realpath(__file__))+"/..")
+sys.path.append(os.path.dirname(os.path.realpath(__file__))+"/../minimax")
+from TicTacToe_Minimax import TicTacToe_Minimax as Tmm
 
 
 class TicTacToe_Player(Player):
@@ -54,3 +55,11 @@ class human_TicTacToe_Player(Player):
 		while not game.is_move_valid(move, board):
 			move = input("Enter a move: ")
 		return int(move)
+
+class minimax_TicTacToe_Player(Player):
+	def __init__(self, Wins=0, Losses=0, name="Player"):
+		super().__init__(Wins, Losses, name, game_type="TicTacToe")
+
+	def next_move(self, game, board):
+		m = Tmm(game)
+		return m.get_next_move(board, game.turn)
