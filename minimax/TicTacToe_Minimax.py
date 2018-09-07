@@ -31,3 +31,6 @@ class TicTacToe_Minimax(Minimax):
 			return self.game.player2
 		return self.game.player1
 
+	def undo_move(self, board, player, move):
+		board[move] = 0
+		return board

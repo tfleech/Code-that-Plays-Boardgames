@@ -38,7 +38,7 @@ class Minimax():
 			if move_score > best_score:
 				best_move = m
 				best_score = move_score
-			board[m] = 0
+			board = self.undo_move(board, player, m)
 
 			alpha = max(alpha, best_score)
 			if (beta <= alpha):
@@ -67,7 +67,7 @@ class Minimax():
 			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 			if (score < best_score):
 				best_score = score
-			board[m] = 0
+			board = self.undo_move(board, turn, m)
 
 			beta = min(beta, best_score)
 			if (beta <= alpha):
@@ -96,7 +96,7 @@ class Minimax():
 			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 			if (score > best_score):
 				best_score = score
-			board[m] = 0
+			board = self.undo_move(board, turn, m)
 
 			alpha = max(alpha, best_score)
 			if (beta <= alpha):
