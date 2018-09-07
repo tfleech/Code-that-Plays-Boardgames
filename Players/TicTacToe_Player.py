@@ -31,15 +31,15 @@ class rand_TicTacToe_Player(Player):
 		self.W = rand_W
 		self.B = rand_B
 
-	def next_move(self, game):
-		x = np.array(game.board)
+	def next_move(self, game, board):
+		x = np.array(board)
 		if sum(x) == 1:
 			x = x*-1
 
 		y = np.matmul(self.W, x) + self.B
 		poss_moves = np.argsort(y)
 		for i in poss_moves:
-			if game.is_move_valid(i):
+			if game.is_move_valid(i, board):
 				return i
 		print("Error: No moves possible")
 		return None
@@ -48,9 +48,9 @@ class human_TicTacToe_Player(Player):
 	def __init__(self, Wins=0, Losses=0, name = "Player"):
 		super().__init__(Wins, Losses, name, game_type="TicTacToe")
 
-	def next_move(self, game):
-		game.print_board()
+	def next_move(self, game, board):
+		game.print_board(board)
 		move = None
-		while not game.is_move_valid(move):
+		while not game.is_move_valid(move, board):
 			move = input("Enter a move: ")
 		return int(move)

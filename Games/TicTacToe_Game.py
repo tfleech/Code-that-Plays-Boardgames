@@ -4,14 +4,10 @@ import numpy as np
 class TicTacToe(Game):
 	def __init__(self, board=np.zeros(9)):
 		super().__init__(game_type="TicTacToe")
-		self.board = board
 		self.X = 1
 		self.O = -1
 
-	def new_game(self):
-		self.board = np.zeros(9)
-		self.gameover = False
-		self.winner = None
+	def new_board(self):
 		return np.zeros(9)
 
 	def is_gameover(self, board):

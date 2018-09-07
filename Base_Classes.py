@@ -4,10 +4,7 @@ class Game:
 	def __init__(self, player1=1, player2=-1, game_type = None):
 		self.player1 = player1
 		self.player2 = player2
-		self.board = None
 		self.turn = player1
-		self.gameover = False
-		self.winner = 0
 		self.game_type = game_type
 
 	def is_gameover(self):
@@ -80,7 +77,7 @@ class Driver:
 
 	def single_game(self, player1, player2, print_game=False):
 
-		board = self.game.new_game()
+		board = self.game.new_board()
 		
 		if player1.game_type != self.game.game_type:
 			print("ERROR: Player1 is playing " + str(player1.game_type) + " but the game is " + str(self.game.game_type))
