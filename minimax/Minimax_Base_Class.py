@@ -2,8 +2,8 @@ import numpy as np
 import sys, os
 
 class Minimax():
-	def __init__(self):
-		self.max_depth = 4
+	def __init__(self, max_depth = 4):
+		self.max_depth = max_depth
 
 	def evaluate_state(self, board, player):
 		pass
@@ -23,61 +23,66 @@ class Minimax():
 	def get_next_move(self, board, player):
 		best_move = None
 		best_score = -9999
-		evaluated_moves = {}
 
 		for m in self.get_next_states(board, player):
 			board = self.make_move(board, player, m)
-			evaluated_moves[tuple(board)] = self.MIN(board, player, self.next_player(player), 0)
-			if evaluated_moves[tuple(board)] > best_score:
+			#print(board)
+			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+			move_score = self.MIN(board, player, self.next_player(player), 0)
+
+			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+			if move_score > best_score:
 				best_move = m
-				best_score = evaluated_moves[tuple(board)]
-				#print("New Best Score")
-				#print(best_score)
+				best_score = move_score
 			board[m] = 0
+			#print(m)
+			#print(move_score)
 		return best_move
 
 	def MIN(self, board, player, turn, depth):
 		#print("MIN")
-		#print(depth)
-		#print(board)
 		if self.is_game_over(board):
+			#print("gameover")
 			return self.evaluate_state(board, player)
 		if depth >= self.max_depth:
+			#print("max_depth")
 			return self.evaluate_state(board, player)
 
 		best_score = 9999
 		for m in self.get_next_states(board, turn):
-			#print("min board")
-			#print(board)
 			board = self.make_move(board, turn, m)
+			#print(board)
+			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
 			score = self.MAX(board, player, self.next_player(turn), depth+1)
+			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 			if (score < best_score):
-				#print("New Min")
-				#print(board)
-				#print(score)
 				best_score = score
 			board[m] = 0
+			#print(m)
+			#print(score)
 		return best_score
 
 	def MAX(self, board, player, turn, depth):
 		#print("MAX")
-		#print(depth)
-		#print(board)
 		if self.is_game_over(board):
+			#print("gameover")
 			return self.evaluate_state(board, player)
 		if depth >= self.max_depth:
+			#print("max_depth")
 			return self.evaluate_state(board, player)
 
 		best_score = -9999
 		for m in self.get_next_states(board, turn):
-			#print("max board")
-			#print(board)
 			board = self.make_move(board, turn, m)
+			#print(board)
+			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
 			score = self.MIN(board, player, self.next_player(turn), depth+1)
+			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 			if (score > best_score):
-				#print("New Max")
-				#print(board)
-				#print(score)
 				best_score = score
 			board[m] = 0
+			#print(m)
+			#print(score)
 		return best_score

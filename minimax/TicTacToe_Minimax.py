@@ -1,8 +1,8 @@
 from Minimax_Base_Class import *
 
 class TicTacToe_Minimax(Minimax):
-	def __init__(self, game):
-		super().__init__()
+	def __init__(self, game, max_depth = 4):
+		super().__init__(max_depth)
 		self.game = game
 
 	def evaluate_state(self, board, player):
@@ -30,3 +30,4 @@ class TicTacToe_Minimax(Minimax):
 		if player == self.game.player1:
 			return self.game.player2
 		return self.game.player1
+
