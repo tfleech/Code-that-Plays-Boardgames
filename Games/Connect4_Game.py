@@ -11,7 +11,7 @@ class Connect4(Game):
 		return np.zeros((6,7))
 
 	def check_column(self, player, board):
-		for i in range(board.shape[1] - 1):
+		for i in range(board.shape[1]):
 			for j in range(board.shape[0] - 3):
 				test = board[j][i] + board[j+1][i] + board[j+2][i] + board[j+3][i]
 				if test == 4*player:
@@ -20,7 +20,7 @@ class Connect4(Game):
 
 	def check_row(self, player, board):
 		for i in range(board.shape[1] - 3):
-			for j in range(board.shape[0] - 1):
+			for j in range(board.shape[0]):
 				test = board[j][i] + board[j][i+1] + board[j][i+2] + board[j][i+3]
 				if test == 4*player:
 					return True
@@ -72,7 +72,7 @@ class Connect4(Game):
 	def available_moves(self, board):
 		res = []
 
-		for i in range(board.shape[0]):
+		for i in range(board.shape[1]):
 			if self.is_move_valid(i, board):
 				res.append(i)
 
