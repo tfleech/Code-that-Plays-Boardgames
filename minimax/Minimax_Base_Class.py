@@ -23,13 +23,15 @@ class Minimax():
 	def get_next_move(self, board, player):
 		best_move = None
 		best_score = -9999
+		alpha = -9999
+		beta = 9999
 
 		for m in self.get_next_states(board, player):
 			board = self.make_move(board, player, m)
 			#print(board)
 			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-			move_score = self.MIN(board, player, self.next_player(player), 0)
+			move_score = self.MIN(board, player, self.next_player(player), 0, alpha, beta)
 
 			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 
@@ -37,11 +39,17 @@ class Minimax():
 				best_move = m
 				best_score = move_score
 			board[m] = 0
+
+			alpha = max(alpha, best_score)
+			if (beta <= alpha):
+				break
+				#pass
+
 			#print(m)
 			#print(move_score)
 		return best_move
 
-	def MIN(self, board, player, turn, depth):
+	def MIN(self, board, player, turn, depth, alpha, beta):
 		#print("MIN")
 		if self.is_game_over(board):
 			#print("gameover")
@@ -55,16 +63,22 @@ class Minimax():
 			board = self.make_move(board, turn, m)
 			#print(board)
 			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
-			score = self.MAX(board, player, self.next_player(turn), depth+1)
+			score = self.MAX(board, player, self.next_player(turn), depth+1, alpha, beta)
 			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 			if (score < best_score):
 				best_score = score
 			board[m] = 0
+
+			beta = min(beta, best_score)
+			if (beta <= alpha):
+				break
+				#pass
+
 			#print(m)
 			#print(score)
 		return best_score
 
-	def MAX(self, board, player, turn, depth):
+	def MAX(self, board, player, turn, depth, alpha, beta):
 		#print("MAX")
 		if self.is_game_over(board):
 			#print("gameover")
@@ -78,11 +92,17 @@ class Minimax():
 			board = self.make_move(board, turn, m)
 			#print(board)
 			#print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
-			score = self.MIN(board, player, self.next_player(turn), depth+1)
+			score = self.MIN(board, player, self.next_player(turn), depth+1, alpha, beta)
 			#print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
 			if (score > best_score):
 				best_score = score
 			board[m] = 0
+
+			alpha = max(alpha, best_score)
+			if (beta <= alpha):
+				#break
+				pass
+
 			#print(m)
 			#print(score)
 		return best_score

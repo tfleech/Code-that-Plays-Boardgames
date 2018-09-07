@@ -21,6 +21,6 @@ g = TicTacToe_Game.TicTacToe()
 
 #Instantiate a driver and run a game
 D = Driver(game=g)
-print(D.single_game(p1, p5, print_game=True))
+print(D.single_game(p4, p5, print_game=True))
 
 #D.many_games(5, players=[p1, p2], print_results=True)

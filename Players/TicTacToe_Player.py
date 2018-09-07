@@ -78,5 +78,5 @@ class minimax_TicTacToe_Player(Player):
 				break
 			current_time = datetime.now()
 
-#		print(depth)
+		print(depth)
 		return best_move
