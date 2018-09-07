@@ -25,14 +25,14 @@ class Game:
 		raise NotImplementedError
 
 
-	def make_move(self, move):
+	def make_move(self, move, board):
 		"""
 		Update self.board with new move
 		"""
 
-		if self.is_move_valid(move):
+		if self.is_move_valid(move, board):
 			try:
-				self.update_board(move)
+				board = self.update_board(move, board, self.turn)
 			except Exception as e:
 				print("ERROR: Board update failed")
 				raise e
@@ -47,7 +47,9 @@ class Game:
 			self.turn = self.player2
 		else:
 			self.turn = self.player1
-		self.is_gameover()
+
+		return board
+		#self.is_gameover()
 
 	def is_move_valid(self, move):
 		return True
@@ -78,7 +80,7 @@ class Driver:
 
 	def single_game(self, player1, player2, print_game=False):
 
-		self.game.new_game()
+		board = self.game.new_game()
 		
 		if player1.game_type != self.game.game_type:
 			print("ERROR: Player1 is playing " + str(player1.game_type) + " but the game is " + str(self.game.game_type))
@@ -87,48 +89,50 @@ class Driver:
 			print("ERROR: Player2 is playing " + str(player2.game_type) + " but the game is " + str(self.game.game_type))
 			return
 
-		while(not self.game.is_gameover()):
+		while(True):
 			n = None
 			if self.game.turn == self.game.player1:
 
 				try:
-					n = player1.next_move(self.game)
+					n = player1.next_move(self.game, board)
 				except Exception as e:
 					print("ERROR: Player1's next_move function failed")
 					raise e
 
-				if not self.game.is_move_valid(n):
+				if not self.game.is_move_valid(n, board):
 					print("ERROR: Player1 returned an invalid move")
 					return
 
 			else:
 
 				try:
-					n = player2.next_move(self.game)
+					n = player2.next_move(self.game, board)
 				except Exception as e:
 					print("ERROR: Player2's next_move function failed")
 					raise e
 
-				if not self.game.is_move_valid(n):
+				if not self.game.is_move_valid(n, board):
 					print("ERROR: Player2 returned an invalid move")
 					return
 
 			#TODO:
 			#catch return error codes
-			self.game.make_move(n)
+			board = self.game.make_move(n, board)
 
 			if print_game:
-				self.game.print_board()
+				self.game.print_board(board)
 
-		if self.game.winner == self.game.player1:
-			player1.Wins += 1
-			player2.Losses += 1
-			return player1.name
-		elif self.game.winner == self.game.player2:
-			player1.Losses += 1
-			player2.Wins += 1
-			return player2.name
-		return "Draw"
+			gameover, winner = self.game.is_gameover(board)
+			if gameover:
+				if winner == self.game.player1:
+					player1.Wins += 1
+					player2.Losses += 1
+					return player1.name
+				elif winner == self.game.player2:
+					player1.Losses += 1
+					player2.Wins += 1
+					return player2.name
+				return "Draw"
 
 	def many_games(self, num_games, players=[], print_results=False):
 

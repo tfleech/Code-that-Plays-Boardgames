@@ -10,15 +10,15 @@ class TicTacToe_Player(Player):
 		self.W = W
 		self.B = B
 
-	def next_move(self, game):
-		x = np.array(game.board)
+	def next_move(self, game, board):
+		x = np.array(board)
 		if sum(x) == 1:
 			x = x*-1
 
 		y = np.matmul(self.W, x) + self.B
 		poss_moves = np.argsort(y)
 		for i in poss_moves:
-			if game.is_move_valid(i):
+			if game.is_move_valid(i, board):
 				return i
 		print("Error: No moves possible")
 		return None
