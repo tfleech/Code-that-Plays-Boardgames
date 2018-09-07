@@ -12,7 +12,7 @@ class TicTacToe_Minimax(Minimax):
 		self.game = game
 
 	def evaluate_state(self, board, player):
-		game_over = self.game.is_gameover(update=False, board=board)
+		game_over = self.game.is_gameover(board)
 		if game_over[0]:
 			if game_over[1]==player:
 				return 999
@@ -24,13 +24,13 @@ class TicTacToe_Minimax(Minimax):
 		return 0
 
 	def get_next_states(self, board, player):
-		return self.game.available_moves(board=board)
+		return self.game.available_moves(board)
 
 	def make_move(self, board, player, move):
-		return self.game.update_board(move, update=False, board=board, player=player)
+		return self.game.update_board(move, board, player)
 
 	def is_game_over(self, board):
-		return self.game.is_gameover(update=False, board=board)[0]
+		return self.game.is_gameover(board)[0]
 
 	def next_player(self, player):
 		if player == self.game.player1:
@@ -41,9 +41,9 @@ class minimax_TicTacToe_Player(Player):
 	def __init__(self, Wins=0, Losses=0, name="Player"):
 		super().__init__(Wins, Losses, name, game_type="TicTacToe")
 
-	def next_move(self, game):
+	def next_move(self, game, board):
 		m = TicTacToe_Minimax(game)
-		return m.get_next_move(game.board, game.turn)
+		return m.get_next_move(board, game.turn)
 
 p1 = T.rand_TicTacToe_Player(name="Player1")
 p2 = minimax_TicTacToe_Player(name="Player2")
