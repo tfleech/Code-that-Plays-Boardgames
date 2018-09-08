@@ -19,15 +19,21 @@ class MCTS():
 		self.time_limit = time_limit
 		n = Node(None, self.board, player, None)
 		self.root = n
+
+	def UCB(self, node):
+		value = float(node.wins)/(float(node.visits)+0.0001)
+		bias = (float(np.log(float(node.parent.visits)))/(float(node.visits)+0.0001))**0.5
+		return value + bias
 	
 	def select_node(self, root):
 		if root.is_leaf:
 			return root
 
 		#TODO: replace with UCB
-		i = np.random.randint(len(root.children))
+		#i = np.random.randint(len(root.children))
+		next_node = max(root.children, key=lambda n: self.UCB(n))
 
-		return self.select_node(root.children[i])
+		return self.select_node(next_node)
 
 	def expand_node(self, node):
 
@@ -35,14 +41,13 @@ class MCTS():
 			#print("gameover")
 			return node
 
-		if not node.is_expanded:
-			for m in self.get_next_states(node.board, node.player):
-				new_board = self.make_move(node.board, node.player, m)
-				new_player = self.next_player(node.player)
-				prev_move = m
-				new_node = Node(node, new_board, new_player, prev_move)
-				node.children.append(new_node)
-			node.is_expanded = True
+		for m in self.get_next_states(node.board, node.player):
+			new_board = self.make_move(node.board, node.player, m)
+			new_player = self.next_player(node.player)
+			prev_move = m
+			new_node = Node(node, new_board, new_player, prev_move)
+			node.children.append(new_node)
+		node.is_leaf = False
 
 		i = np.random.randint(len(node.children))
 		return node.children[i]
@@ -88,7 +93,7 @@ class MCTS():
 		max_visits = max(self.root.children, key=lambda n: n.visits)
 		max_wins = max(self.root.children, key=lambda n: n.wins)
 
-		return max_wins.prev_move
+		return max_visits.prev_move
 
 
 	def get_next_states(self, board, player):
