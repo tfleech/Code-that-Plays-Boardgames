@@ -10,6 +10,7 @@ class Node():
 		self.is_leaf = is_leaf
 		self.player = player
 		self.prev_move = prev_move
+		self.is_expanded = False
 
 
 class MCTS():
@@ -31,17 +32,19 @@ class MCTS():
 	def expand_node(self, node):
 
 		if self.is_game_over(node.board)[0]:
+			#print("gameover")
 			return node
 
-		for m in self.get_next_states(node.board, node.player):
-			new_board = self.make_move(node.board, node.player, m)
-			new_player = self.next_player(node.player)
-			prev_move = m
-			new_node = Node(node, new_board, new_player, prev_move)
-			node.children.append(new_node)
+		if not node.is_expanded:
+			for m in self.get_next_states(node.board, node.player):
+				new_board = self.make_move(node.board, node.player, m)
+				new_player = self.next_player(node.player)
+				prev_move = m
+				new_node = Node(node, new_board, new_player, prev_move)
+				node.children.append(new_node)
+			node.is_expanded = True
 
 		i = np.random.randint(len(node.children))
-
 		return node.children[i]
 
 	def simulation(self, node):
@@ -76,7 +79,7 @@ class MCTS():
 
 	def get_next_move(self):
 
-		for i in range(10):
+		for i in range(1000):
 			node_to_expand = self.select_node(self.root)
 			node_to_evaluate = self.expand_node(node_to_expand)
 			node_win = self.simulation(node_to_evaluate)

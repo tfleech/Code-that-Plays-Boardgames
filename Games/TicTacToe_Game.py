@@ -70,6 +70,11 @@ class TicTacToe(Game):
 			board[move] = player
 			return board
 
+	def update_board_copy(self, move, board, player):
+		new_board = np.copy(board)
+		new_board[move] = player
+		return new_board
+
 	def print_board(self, board):
 		for i in range(3):
 			s = ""

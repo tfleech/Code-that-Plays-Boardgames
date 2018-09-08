@@ -9,7 +9,7 @@ class TicTacToe_MCTS(MCTS):
 		return self.game.available_moves(board)
 
 	def make_move(self, board, player, move):
-		return self.game.update_board(move, board, player)
+		return self.game.update_board_copy(move, board, player)
 
 	def is_game_over(self, board):
 		return self.game.is_gameover(board)
