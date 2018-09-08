@@ -16,11 +16,12 @@ p2 = T.rand_TicTacToe_Player(name="Player2")
 p3 = T.human_TicTacToe_Player(name="Player3")
 p4 = T.minimax_TicTacToe_Player(name="Player4")
 p5 = T.minimax_TicTacToe_Player(name="Player5")
+p6 = T.mcts_TicTacToe_Player(name="Player6")
 
 g = TicTacToe_Game.TicTacToe()
 
 #Instantiate a driver and run a game
 D = Driver(game=g)
-print(D.single_game(p1, p5, print_game=True))
+print(D.single_game(p6, p1, print_game=True))
 
 #D.many_games(5, players=[p1, p2], print_results=True)

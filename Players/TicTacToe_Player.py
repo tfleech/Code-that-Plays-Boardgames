@@ -3,7 +3,9 @@ import numpy as np
 import sys, os
 from datetime import datetime
 sys.path.append(os.path.dirname(os.path.realpath(__file__))+"/../minimax")
+sys.path.append(os.path.dirname(os.path.realpath(__file__))+"/../MCTS")
 from TicTacToe_Minimax import TicTacToe_Minimax as Tmm
+from TicTacToe_MCTS import TicTacToe_MCTS as Tmcts
 
 
 class TicTacToe_Player(Player):
@@ -80,3 +82,14 @@ class minimax_TicTacToe_Player(Player):
 
 		print(depth)
 		return best_move
+
+class mcts_TicTacToe_Player(Player):
+	def __init__(self, Wins=0, Losses=0, name="Player", time_limit = 1000000):
+		super().__init__(Wins, Losses, name, game_type="TicTacToe")
+		self.time_limit = time_limit
+
+	def next_move(self, game, board):
+		m = Tmcts(game, board)
+		move = m.get_next_move()
+
+		return move
